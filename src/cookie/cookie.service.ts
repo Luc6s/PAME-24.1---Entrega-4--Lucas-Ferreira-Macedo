@@ -1,9 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCookieDto } from './dto/create-cookie.dto';
 import { UpdateCookieDto } from './dto/update-cookie.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CookieService {
+
+  constructor(private readonly prisma: PrismaService){}
+
+
   create(createCookieDto: CreateCookieDto) {
     return 'This action adds a new cookie';
   }

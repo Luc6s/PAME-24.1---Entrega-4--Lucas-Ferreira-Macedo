@@ -1,8 +1,11 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// sempre que fizer alguma alteraçao rodar o comando:          npx prisma migrate dev 
+// em seguida o comando:                                       npx prisma migrate dev npm install @prisma/client
+// Por fim:                                                    nest g service prisma 
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// Iniciar o programa                                          npm run start:dev
+
+// Adicionar uma pasta entitade                                nest g resource entidade
+
 
 generator client {
   provider = "prisma-client-js"
