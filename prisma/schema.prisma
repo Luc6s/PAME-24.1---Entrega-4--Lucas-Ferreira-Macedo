@@ -4,7 +4,7 @@
 
 // Iniciar o programa                                          npm run start:dev
 
-// Adicionar uma pasta entitade                                nest g resource entidade
+// Adicionar uma pasta entitade                                nest g resource "entidade"
 
 
 generator client {
