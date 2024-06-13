@@ -13,20 +13,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model ingredientes {
+model Ingrediente {
   id       Int @id @default(autoincrement())
   nome     String
   status   String
+  cookie   Cookie[]
 }
 
-model receita{
+model Receita{
   id       Int @id @default(autoincrement())
   sabor    String
+  cookie   Cookie[]
 }
-model cookie {
+model Cookie {
   id              Int @id @default(autoincrement())
   estoque         Int
   validade        DateTime
   id_ingrediente  Int
+  ingredientes Ingrediente @relation(fields: [id_ingrediente], references: [id])
   id_receita      Int
+  receita         Receita   @relation(fields: [id_receita], references: [id])
 }
