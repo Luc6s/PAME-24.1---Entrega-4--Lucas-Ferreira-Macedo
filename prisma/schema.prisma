@@ -12,3 +12,21 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model ingredientes {
+  id       Int @id @default(autoincrement())
+  nome     String
+  status   String
+}
+
+model receita{
+  id       Int @id @default(autoincrement())
+  sabor    String
+}
+model cookie {
+  id              Int @id @default(autoincrement())
+  estoque         Int
+  validade        DateTime
+  id_ingrediente  Int
+  id_receita      Int
+}
