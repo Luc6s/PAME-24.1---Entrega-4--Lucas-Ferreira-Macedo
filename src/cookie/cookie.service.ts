@@ -5,27 +5,65 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CookieService {
+  constructor(private readonly prisma: PrismaService) {}
 
-  constructor(private readonly prisma: PrismaService){}
+  async create(createCookieDto: CreateCookieDto) {
+    const data: any = {
+      estoque: createCookieDto.estoque,
+      validade: new Date(createCookieDto.validade),
+      id_receita: createCookieDto.id_receita,
+      ingredientes: {
+        connect: createCookieDto.ingredientes.map(id => ({ id }))
+      }
+    };
 
-
-  create(createCookieDto: CreateCookieDto) {
-    return 'This action adds a new cookie';
+    const cookieCriado = await this.prisma.cookie.create({ data });
+    return cookieCriado;
   }
 
-  findAll() {
-    return `This action returns all cookie`;
+  async findAll() {
+    const cookies = await this.prisma.cookie.findMany({
+      include: {
+        ingredientes: true,
+        receita: true,
+      },
+    });
+    return cookies;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cookie`;
+  async findOne(id: number) {
+    const cookie = await this.prisma.cookie.findUnique({
+      where: { id },
+      include: {
+        ingredientes: true,
+        receita: true,
+      },
+    });
+    return cookie;
   }
 
-  update(id: number, updateCookieDto: UpdateCookieDto) {
-    return `This action updates a #${id} cookie`;
+  async update(id: number, updateCookieDto: UpdateCookieDto) {
+    const data: any = {
+      estoque: updateCookieDto.estoque,
+      validade: new Date(updateCookieDto.validade),
+      id_receita: updateCookieDto.id_receita,
+    };
+
+    if (updateCookieDto.ingredientes) {
+      data.ingredientes = {
+        set: updateCookieDto.ingredientes.map(id => ({ id }))
+      };
+    }
+
+    const cookieAtualizado = await this.prisma.cookie.update({
+      where: { id },
+      data,
+    });
+    return cookieAtualizado;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cookie`;
+  async remove(id: number) {
+    const cookieRemovido = await this.prisma.cookie.delete({ where: { id } });
+    return cookieRemovido;
   }
 }

@@ -1,26 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { CreateReceitaDto } from './dto/create-receita.dto';
 import { UpdateReceitaDto } from './dto/update-receita.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class ReceitaService {
-  create(createReceitaDto: CreateReceitaDto) {
-    return 'This action adds a new receita';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(createReceitaDto: CreateReceitaDto) {
+    const receitaCriada = await this.prisma.receita.create({ data: createReceitaDto });
+    return receitaCriada;
   }
 
-  findAll() {
-    return `This action returns all receita`;
+  async findAll() {
+    const receitas = await this.prisma.receita.findMany();
+    return receitas;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} receita`;
+  async findOne(id: number) {
+    const receita = await this.prisma.receita.findUnique({ where: { id } });
+    return receita;
   }
 
-  update(id: number, updateReceitaDto: UpdateReceitaDto) {
-    return `This action updates a #${id} receita`;
+  async update(id: number, updateReceitaDto: UpdateReceitaDto) {
+    const receitaAtualizada = await this.prisma.receita.update({
+      where: { id },
+      data: updateReceitaDto,
+    });
+    return receitaAtualizada;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} receita`;
+  async remove(id: number) {
+    const receitaRemovida = await this.prisma.receita.delete({ where: { id } });
+    return receitaRemovida;
   }
 }
